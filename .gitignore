@@ -1,2 +1,7 @@
 .idea/
 venv/
+db.sqlite3
+main/__pycache__/
+posts/__pycache__/
+posts/migrations/0001_initial.py
+posts/migrations/__pycache__/
