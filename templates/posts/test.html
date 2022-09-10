@@ -6,11 +6,10 @@
 Hello, World !
 <h3>{{ my_first_object  }}</h3>
 <ul>{{ my_list }}</ul>
-
- {% for item in my_list %}
-    <ul>
-        <p>{{ item  }}</p>
-    </ul>
+<ol>
+ {% for post in posts %}
+    <li><a href="/posts/{{ post.id }}">{{ post }}</a></li>
 {% endfor %}
+    </ol>
 
 {% endblock %}
