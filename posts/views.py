@@ -6,14 +6,19 @@ import random
 
 
 def post_search_view(request):
-    # TODO: Переопределить view так, чтобы он выводил нужную запись,
-    #  если query_data может преобразовываться в int
-    #  иначе выдаете object_from_db пустым
     query_dict = request.GET
     query_data = query_dict.get("query")
     object_from_db = None
-    if query_data is not None:
-        object_from_db = Post.objects.get(id=query_data)
+    try:
+        if query_data:
+            if int(query_data):
+                object_from_db = Post.objects.get(id=query_data)
+        else:
+            object_from_db = None
+    except Post.DoesNotExist:
+        raise Http404
+    except:
+        object_from_db = "Вам нужно передавать только числа !"
 
     context = {
         "object": object_from_db
@@ -41,9 +46,17 @@ def post_detail_view(request, id=None):
         try:
             post_object = Post.objects.get(id=id)
         except:
-            raise Http404
+            post_object = " Hey ! It's post_detail_view"
 
     context = {
         "post_object": post_object
     }
     return render(request, 'posts/post_detail.html', context=context)
+
+
+def post_create_view(request):
+    print(request.GET)
+    print(request.POST)
+    context = {}
+    return render(request, 'posts/post_create.html', context=context)
+
