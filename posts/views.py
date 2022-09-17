@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Post
 from django.http import Http404
 import random
@@ -55,8 +55,18 @@ def post_detail_view(request, id=None):
 
 
 def post_create_view(request):
-    print(request.GET)
     print(request.POST)
+    message = False
     context = {}
+    if request.method == "POST":
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        if title and description:
+            Post.objects.create(title=title, description=description)
+            return HttpResponseRedirect("/posts/create/")
+        else:
+            message = "You sended empty form !"
+
+    context = {"message": message}
     return render(request, 'posts/post_create.html', context=context)
 

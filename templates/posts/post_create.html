@@ -4,17 +4,22 @@
 
 {% block content %}
 <div style="margin-top: 40px">
-    <form action="" method="POST">
+    <form id="CreateForm" action="" method="POST">
         {% csrf_token %}
         <div>
-        <input type="text" name="title" placeholder="Title" />
+        <input type="text"  name="title" placeholder="Title" />
         </div>
         <div style="margin-top: 8px">
-        <textarea name="description" placeholder="Description" ></textarea>
+        <textarea name="description"  placeholder="Description" ></textarea>
         </div>
         <div style="margin-top: 5px">
         <button type="submit"> Create post</button>
+            <input type="reset" value="Reset" onClick="window.location.reload()">
         </div>
     </form>
+    <br>
+    {% if message  %}
+    <p>{{ message  }}</p>
+    {% endif %}
 </div>
 {% endblock  %}
