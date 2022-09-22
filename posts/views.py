@@ -55,7 +55,23 @@ def post_detail_view(request, id=None):
 
 
 def post_create_view(request):
-    print(request.POST)
+    message = False
+    context = {}
+    if request.method == "POST":
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        if title and description:
+            post_object = Post.objects.create(title=title, description=description)
+            context["post_object"] = post_object
+            context["created"] = True
+        else:
+            message = "You sended empty form !"
+    context["message"] = message
+    return render(request, 'posts/post_create.html', context=context)
+
+
+"""
+def post_create_view(request):
     message = False
     context = {}
     if request.method == "POST":
@@ -69,4 +85,4 @@ def post_create_view(request):
 
     context = {"message": message}
     return render(request, 'posts/post_create.html', context=context)
-
+"""

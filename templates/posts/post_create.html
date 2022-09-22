@@ -7,6 +7,8 @@
 <div style="margin-top: 40px">
     <form id="CreateForm" action="" method="POST" >
         {% csrf_token %}
+
+        {% if not created %}
         <div>
         <input type="text"  name="title" placeholder="Title" />
         </div>
@@ -18,6 +20,12 @@
         </div>
         <h5 id="myhfive"> </h5>
     </form>
+    {% else %}
+
+    <h3> You created an object with title {{ post_object }} </h3>
+
+    {% endif %}
+
     <button onclick="mainFunction()">Click me </button>
     <br>
     {% if message  %}
