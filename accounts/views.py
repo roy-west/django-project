@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 def login_view(request):
@@ -11,8 +11,15 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         print(user)
         if user is None:
-            context = {"error": "Something wrong ! Username or password is not correct !"}
+            context = {"error": "Something wrong     ! Username or password is not correct !"}
         else:
             login(request, user)
-            return redirect('/admin')
+            return redirect('/')
     return render(request, "accounts/login.html", context)
+
+
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect('/login/')
+    return render(request, "accounts/logout.html", {})
