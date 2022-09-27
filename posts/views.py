@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from .models import Post
+from .forms import PostForm
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 import random
 
@@ -54,19 +55,16 @@ def post_detail_view(request, id=None):
     return render(request, 'posts/post_detail.html', context=context)
 
 
+@login_required
 def post_create_view(request):
-    message = False
-    context = {}
-    if request.method == "POST":
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        if title and description:
-            post_object = Post.objects.create(title=title, description=description)
-            context["post_object"] = post_object
-            context["created"] = True
-        else:
-            message = "You sended empty form !"
-    context["message"] = message
+    form = PostForm(request.POST or None)
+    context = {"form": form}
+    if form.is_valid():
+        title = form.cleaned_data.get("title")
+        description = form.cleaned_data.get("description")
+        post_object = Post.objects.create(title=title, description=description)
+        context["post_object"] = post_object
+        context["created"] = True
     return render(request, 'posts/post_create.html', context=context)
 
 
