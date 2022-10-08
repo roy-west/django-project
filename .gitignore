@@ -6,4 +6,4 @@ posts/__pycache__/
 posts/migrations/0001_initial.py
 posts/migrations/__pycache__/
 posts/migrations/
-
+.env
